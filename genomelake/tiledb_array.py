@@ -12,8 +12,9 @@ GENOME_DOMAIN_NAME = "genome_coord"
 SECONDARY_DOMAIN_NAME = "signal_coord"
 GENOME_VALUE_NAME = "v"
 
-DEFAULT_GENOME_TILE_EXTENT = 50000
-DEFAULT_COMPRESSOR = "lz4"
+DEFAULT_GENOME_TILE_EXTENT = 9000
+DEFAULT_COMPRESSOR = "blosc-lz"
+DEFAULT_COMPRESSOR_LEVEL = -1
 
 
 def write_tiledb(arr, path, overwrite=True):
@@ -47,14 +48,18 @@ def write_tiledb(arr, path, overwrite=True):
     else:
         raise ValueError("tiledb backend only supports 1D or 2D arrays")
 
-    v = tiledb.Attr(ctx, GENOME_VALUE_NAME, compressor=("lz4", -1), dtype="float32")
+    v = tiledb.Attr(
+        ctx,
+        GENOME_VALUE_NAME,
+        compressor=(DEFAULT_COMPRESSOR, DEFAULT_COMPRESSOR_LEVEL),
+        dtype="float32",
+    )
 
     A = tiledb.DenseArray(
         ctx,
         path,
         domain=domain,
         attrs=(v,),
-        capacity=1000,
         cell_order="row-major",
         tile_order="row-major",
     )
