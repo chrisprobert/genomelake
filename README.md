@@ -11,12 +11,17 @@ Supports the following types of input data:
 genomelake extracts signal from genomic inputs in provided BED intervals.
 
 ## Requirements
-- python 2.7 or 3.5
+- python 3.4+ (this is a TileDB requirement, support for python 2.7 is expected by early July 2018)
 - bcolz
 - cython
 - numpy
 - pybedtools
 - pysam
+
+## TileDB
+To install tiledb, run:
+`conda install -y -c conda-forge tiledb=1.2.1 tiledb-py`
+Currently, there is a known issue with tiledb
 
 ## Installation
 Clone the repository and run:
@@ -82,7 +87,7 @@ model.fit_generator(inputs_labels_generator, steps_per_epoch=100)
 
 Here is the expected result:
 ```
-100/100 [==============================] - 7s - loss: 0.0584 - acc: 0.9905 
+100/100 [==============================] - 7s - loss: 0.0584 - acc: 0.9905
 ```
 
 ## License
