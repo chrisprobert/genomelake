@@ -81,7 +81,7 @@ class TDBDenseArray(object):
             self._arr = array
         else:
             ctx = tiledb.Ctx()
-            self._arr = tiledb.DenseArray.load(ctx, array)
+            self._arr = tiledb.DenseArray(ctx, array, mode="r")
 
     def __getitem__(self, key):
         return self._arr[key][GENOME_VALUE_NAME]
