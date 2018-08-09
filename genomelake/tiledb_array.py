@@ -55,18 +55,15 @@ def write_tiledb(arr, path, overwrite=True):
         dtype="float32",
     )
 
-    A = tiledb.DenseArray(
-        ctx,
-        path,
-        domain=domain,
-        attrs=(v,),
-        cell_order="row-major",
-        tile_order="row-major",
+    schema = tiledb.ArraySchema(
+        ctx, domain=domain, attrs=(v,), cell_order="row-major", tile_order="row-major"
     )
+    A = tiledb.DenseArray.create(path, schema)
 
     values = arr.astype(np.float32)
 
-    A[:] = {GENOME_VALUE_NAME: values}
+    with tiledb.DenseArray(ctx, path, mode="w") as A:
+        A[:] = {GENOME_VALUE_NAME: values}
 
 
 def load_tiledb(path):

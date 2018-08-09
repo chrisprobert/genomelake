@@ -38,7 +38,7 @@ setup(
         "pyBigWig",
         "pysam",
         "six>=1.9.0",
-        "tiledb",
+        "tiledb>=0.2.0",
     ],
     extras_require={"develop": ["coveralls", "pytest>=3.3.1", "pytest-cov"]},
 )
