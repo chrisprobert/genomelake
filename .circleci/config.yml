@@ -2,25 +2,19 @@ version: 2
 jobs:
   test-py27:
     docker:
-      - image: continuumio/miniconda
+      - image: circleci/python:2.7.14
     working_directory: ~/repo
 
     steps:
       - checkout
 
-      - run: apt-get install -y sudo
-
       - run:
-          name: patch distro
-          command: sudo apt-get update && sudo apt-get install -y build-essential wget unzip git cmake python3 python-dev python3-dev libssl-dev && sudo apt-get clean && sudo apt-get purge -y
-
-      - run:
-          name: patch cmake
-          command: cd /tmp && sudo wget https://cmake.org/files/v3.3/cmake-3.3.2-Linux-x86_64.tar.gz && sudo tar -xzf cmake-3.3.2-Linux-x86_64.tar.gz && sudo cp -R cmake-3.3.2-Linux-x86_64/bin /usr/ && sudo cp -R cmake-3.3.2-Linux-x86_64/doc /usr/ && sudo cp -R cmake-3.3.2-Linux-x86_64/man /usr/ && sudo cp -R cmake-3.3.2-Linux-x86_64/share /usr/ && cd ~/repo
+          name: install tiledb
+          command: sudo pip install cmake && sudo pip install tiledb
 
       - run:
           name: install dependencies
-          command: pip install --user -e '.[develop]'
+          command: sudo pip install -e '.[develop]'
 
       - run:
           name: run tests
@@ -39,25 +33,18 @@ jobs:
         # TODO check
       - image: circleci/python:3.5
 
-
     working_directory: ~/repo
 
     steps:
       - checkout
 
-      - run: apt-get install -y sudo
-
       - run:
-          name: patch distro
-          command: sudo apt-get update && sudo apt-get install -y build-essential wget unzip git cmake python3 python-dev python3-dev libssl-dev && sudo apt-get clean && sudo apt-get purge -y
-
-      - run:
-          name: patch cmake
-          command: cd /tmp && sudo wget https://cmake.org/files/v3.3/cmake-3.3.2-Linux-x86_64.tar.gz && sudo tar -xzf cmake-3.3.2-Linux-x86_64.tar.gz && sudo cp -R cmake-3.3.2-Linux-x86_64/bin /usr/ && sudo cp -R cmake-3.3.2-Linux-x86_64/doc /usr/ && sudo cp -R cmake-3.3.2-Linux-x86_64/man /usr/ && sudo cp -R cmake-3.3.2-Linux-x86_64/share /usr/ && cd ~/repo
+          name: install tiledb
+          command: sudo pip install cmake && sudo pip install tiledb
 
       - run:
           name: install dependencies
-          command: pip install --user -e '.[develop]'
+          command: sudo pip install --user -e '.[develop]'
 
       - run:
           name: run tests
